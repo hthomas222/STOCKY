@@ -5,6 +5,8 @@ from rich.console import Console
 from rich.table import Table
 from rich import print
 import sys
+import pandas as pd
+from tabulate import tabulate
 
 def stock_save(stocks):
     for i in stocks: 
@@ -27,9 +29,11 @@ def stock_viewer(stocks):
 
 
 def get_info(stocks):
-    for i in stocks:  
+    for i in stocks: 
+        info = yf.Ticker(i).history(period='1d', interval='1d')
         print(i)   
-        print(yf.Ticker(i).history(period='1d', interval='1d'))
+        print(tabulate(info, headers='keys', tablefmt='psql'))
+    
 
 def check(test):
     if test == "2":
