@@ -1,6 +1,7 @@
 import yfinance as yf
 import matplotlib.pyplot as plt
-import os 
+from PIL import Image
+import os
 from rich.console import Console
 from rich.table import Table
 from rich import print
@@ -9,31 +10,24 @@ import pandas as pd
 from tabulate import tabulate
 
 def stock_save(stocks):
-    for i in stocks: 
+    for i in stocks:
         data = yf.Ticker(i).history(period="3mo").reset_index()[["Date", "Open"]]
-        plt.title("STOCKS")
         plt.plot(data["Date"], data["Open"], label = i)
         plt.title("STOCKS")
         plt.legend()
-        save = os.getcwd()
-        plt.savefig(save + '/plot.png')
+    save = os.getcwd()
+    plt.savefig(save + '/plot.png')
 
-def stock_viewer(stocks):
-    for i in stocks: 
-        data = yf.Ticker(i).history(period="3mo").reset_index()[["Date", "Open"]]
-        plt.title("STOCKS")
-        plt.plot(data["Date"], data["Open"], label = i)
-        plt.title("STOCKS")
-        plt.legend()
-    plt.show()
-
+def stock_viewer():
+    img = Image.open("plot.png")
+    img.show()
 
 def get_info(stocks):
-    for i in stocks: 
+    for i in stocks:
         info = yf.Ticker(i).history(period='1d', interval='1d')
-        print(i)   
+        print(i)
         print(tabulate(info, headers='keys', tablefmt='psql'))
-    
+
 
 def check(test):
     if test == "2":
@@ -69,7 +63,7 @@ while test != "1":
         stock_save(stocks)
     elif selection == "2":
         print()
-        stock_viewer(stocks)
+        stock_viewer()
         print()
     elif selection == "3":
         print()
